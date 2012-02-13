@@ -6,7 +6,17 @@ Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
 ## Usage
 
-TBD
+Adding the plugin:
+    addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.1")
+
+Enable the plugin in your build:
+    import fmpp.FmppPlugin._
+
+    object build extends Build {
+      lazy val root = Project("main", file("."), settings = Defaults.defaultSettings ++ fmppSettings).configs(Fmpp)
+    }
+
+Once activated place your scala template in *src/main/scala-template* and that's all!
 
 ## Contribution Policy
 
