@@ -7,9 +7,11 @@ Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 ## Usage
 
 Adding the plugin:
+
     addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.1")
 
 Enable the plugin in your build:
+
     import fmpp.FmppPlugin._
 
     object build extends Build {
