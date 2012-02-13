@@ -1,0 +1,9 @@
+package test;
+
+public class Test {
+<#list 1..9 as i>
+  public static String f${i}() {
+    return "foo -> ${i}";
+  }
+</#list>
+}

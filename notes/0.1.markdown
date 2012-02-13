@@ -1,3 +1,3 @@
 Initial release:
 
-* Process scala files from src/main/scala-template
+* Process '.fm' files from src/main/scala/ or src/main/java

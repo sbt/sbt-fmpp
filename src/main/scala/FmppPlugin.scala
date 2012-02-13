@@ -12,14 +12,16 @@ object FmppPlugin extends Plugin {
   val fmpp = TaskKey[Seq[File]]("fmpp", "Generate Scala sources from FMPP Scala Template")
   val fmppArgs = SettingKey[Seq[String]]("fmpp-args", "Extra command line parameters to FMPP.")
   val fmppMain = SettingKey[String]("fmpp-main", "FMPP main class.")
+  val fmppSources =  SettingKey[Seq[String]]("fmpp-sources", "Sources type to be processed.")
   val fmppVersion =  SettingKey[String]("fmpp-version", "FMPP version.")
 
   lazy val fmppSettings = Seq[Project.Setting[_]](
     fmppArgs := Seq("--ignore-temporary-files"),
     fmppMain := "fmpp.tools.CommandLine",
+    fmppSources := Seq("scala", "java"),
     fmppVersion := "0.9.14",
     libraryDependencies <+= (fmppVersion in Fmpp)("net.sourceforge.fmpp" % "fmpp" % _ % Fmpp.name),
-    sourceDirectory in Fmpp <<= (sourceDirectory in Compile) { _ / "scala-template" },
+    sourceDirectory in Fmpp <<= (sourceDirectory in Compile),
     scalaSource in Fmpp <<= (sourceManaged in Compile),
 
     managedClasspath in Fmpp <<= (classpathTypes, update) map { (ct, report) =>
@@ -27,6 +29,7 @@ object FmppPlugin extends Plugin {
     },
 
     fmpp <<= (
+      fmppSources in Fmpp,
       sourceDirectory in Fmpp,
       sourceManaged in Fmpp,
       fmppMain in Fmpp,
@@ -40,6 +43,7 @@ object FmppPlugin extends Plugin {
   )
 
   private def process(
+    sources: Seq[String],
     source: File,
     sourceManaged: File,
     mainClass: String,
@@ -48,14 +52,21 @@ object FmppPlugin extends Plugin {
     javaHome: Option[File],
     streams: TaskStreams
   ) = {
-    Fork.java(
-      javaHome,
-      List(
-        "-cp", classpath.map(_.data).mkString(":"), mainClass,
-        "-S", source.toString, "-O", sourceManaged.toString
-      ) ::: args.toList,
-      streams.log
-    )
-    (sourceManaged ** "*.scala").get
+    sources.flatMap(x => {
+      val input = new File(source, x)
+      if (input.exists) {
+        val output = new File(sourceManaged, x)
+        Fork.java(
+          javaHome,
+          List(
+            "-cp", classpath.map(_.data).mkString(":"), mainClass,
+            "-S", input.toString, "-O", output.toString,
+             "--replace-extensions=fm, " + x
+          ) ::: args.toList,
+          streams.log
+        )
+        (output ** ("*." + x)).get
+      } else Nil
+    })
   }
 }

@@ -18,7 +18,7 @@ Enable the plugin in your build:
       lazy val root = Project("main", file("."), settings = Defaults.defaultSettings ++ fmppSettings).configs(Fmpp)
     }
 
-Once activated place your scala template in *src/main/scala-template* and that's all!
+Once activated place your '.fm' templates in *src/main/scala* or *src/main/java* and that's all!
 
 ## Contribution Policy
 
