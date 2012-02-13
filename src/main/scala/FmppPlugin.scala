@@ -36,7 +36,8 @@ object FmppPlugin extends Plugin {
       fmppArgs in Fmpp,
       managedClasspath in Fmpp,
       javaHome,
-      streams
+      streams,
+      cacheDirectory
     ).map(process),
 
     sourceGenerators in Compile <+= (fmpp).task
@@ -50,24 +51,30 @@ object FmppPlugin extends Plugin {
     args: Seq[String],
     classpath: Classpath,
     javaHome: Option[File],
-    streams: TaskStreams
+    streams: TaskStreams,
+    cache: File
   ) = {
     sources.flatMap(x => {
       val input = source / x
       if (input.exists) {
         val output = sourceManaged / x
-        IO.delete(output)
-        Fork.java(
-          javaHome,
-          List(
-            "-cp", classpath.map(_.data).mkString(":"), mainClass,
-            "-S", input.toString, "-O", output.toString,
-            "--replace-extensions=fm, " + x,
-            "-M", "execute(**/*.fm), ignore(**/*)" 
-          ) ::: args.toList,
-          streams.log
-        )
-        (output ** ("*." + x)).get.toSet
+        val cached = FileFunction.cached(cache / "fmpp" / x, FilesInfo.lastModified, FilesInfo.exists) {
+          (in: Set[File]) => {
+            IO.delete(output)
+            Fork.java(
+              javaHome,
+              List(
+                "-cp", classpath.map(_.data).mkString(":"), mainClass,
+                "-S", input.toString, "-O", output.toString,
+                "--replace-extensions=fm, " + x,
+                "-M", "execute(**/*.fm), ignore(**/*)" 
+              ) ::: args.toList,
+              streams.log
+            )
+            (output ** ("*." + x)).get.toSet
+          }
+        }
+        cached((input ** "*.fm").get.toSet)
       } else Nil
     })
   }
