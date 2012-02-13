@@ -1,0 +1,3 @@
+Initial release:
+
+* Process scala files from src/main/scala-template
