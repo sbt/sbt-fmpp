@@ -53,20 +53,21 @@ object FmppPlugin extends Plugin {
     streams: TaskStreams
   ) = {
     sources.flatMap(x => {
-      val input = new File(source, x)
+      val input = source / x
       if (input.exists) {
-        val output = new File(sourceManaged, x)
+        val output = sourceManaged / x
         IO.delete(output)
         Fork.java(
           javaHome,
           List(
             "-cp", classpath.map(_.data).mkString(":"), mainClass,
             "-S", input.toString, "-O", output.toString,
-             "--replace-extensions=fm, " + x
+            "--replace-extensions=fm, " + x,
+            "-M", "execute(**/*.fm), ignore(**/*)" 
           ) ::: args.toList,
           streams.log
         )
-        (output ** ("*." + x)).get
+        (output ** ("*." + x)).get.toSet
       } else Nil
     })
   }
