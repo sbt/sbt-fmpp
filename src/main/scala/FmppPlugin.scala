@@ -56,6 +56,7 @@ object FmppPlugin extends Plugin {
       val input = new File(source, x)
       if (input.exists) {
         val output = new File(sourceManaged, x)
+        IO.delete(output)
         Fork.java(
           javaHome,
           List(
