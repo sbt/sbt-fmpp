@@ -7,7 +7,7 @@ import sbt.Fork
 import java.io.File
 
 object FmppPlugin extends Plugin {
-  val Fmpp = config("xmpp")
+  val Fmpp = config("fmpp")
 
   val fmpp = TaskKey[Seq[File]]("fmpp", "Generate Scala sources from FMPP Scala Template")
   val fmppArgs = SettingKey[Seq[String]]("fmpp-args", "Extra command line parameters to FMPP.")
@@ -34,7 +34,9 @@ object FmppPlugin extends Plugin {
       managedClasspath in Fmpp,
       javaHome,
       streams
-    ).map(process)
+    ).map(process),
+
+    sourceGenerators in Compile <+= (fmpp).task
   )
 
   private def process(
