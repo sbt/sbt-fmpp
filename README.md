@@ -1,6 +1,6 @@
 # xsbt-fmpp-plugin
 
-[XSBT](http://github.com/harrah/xsbt) plugin to generate scala code using [FreeMarker](http://freemarker.sourceforge.net/) template.
+[XSBT](http://github.com/harrah/xsbt) plugin to generate scala/java code using [FreeMarker](http://freemarker.sourceforge.net/) template.
 
 Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
