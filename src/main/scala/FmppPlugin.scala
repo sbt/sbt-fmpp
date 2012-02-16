@@ -15,6 +15,11 @@ object FmppPlugin extends Plugin {
   val fmppSources =  SettingKey[Seq[String]]("fmpp-sources", "Sources type to be processed.")
   val fmppVersion =  SettingKey[String]("fmpp-version", "FMPP version.")
 
+  // TODO Add support for Compile/Test/...
+  // https://github.com/sbt/sbt-xjc/blob/master/src/main/scala/com/github/retronym/sbtxjc/SbtXjcPlugin.scala
+  //def fmppSettings0(config: Config) = Seq(sourceDirectory in fmpp in config := … , …) `
+  //val fmppSettings = fmppSettings0(Compile)
+
   lazy val fmppSettings = Seq[Project.Setting[_]](
     fmppArgs := Seq("--ignore-temporary-files"),
     fmppMain := "fmpp.tools.CommandLine",
