@@ -8,7 +8,9 @@ Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
 Adding the plugin:
 
-    addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.1")
+    resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
+
+    addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.2")
 
 Enable the plugin in your build:
 
