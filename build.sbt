@@ -2,7 +2,7 @@ sbtPlugin := true
 
 name := "xsbt-fmpp-plugin"
 
-version := "0.3-SNAPSHOT"
+version := "0.2"
 
 organization := "com.github.aloiscochard"
 
