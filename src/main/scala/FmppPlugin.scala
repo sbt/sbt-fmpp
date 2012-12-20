@@ -69,7 +69,7 @@ object FmppPlugin extends Plugin {
             Fork.java(
               javaHome,
               List(
-                "-cp", classpath.map(_.data).mkString(":"), mainClass,
+                "-cp", classpath.map(_.data).mkString(File.pathSeparator), mainClass,
                 "-S", input.toString, "-O", output.toString,
                 "--replace-extensions=fm, " + x,
                 "-M", "execute(**/*.fm), ignore(**/*)" 
