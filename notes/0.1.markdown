@@ -1,3 +1,0 @@
-Initial release:
-
-* Process '.fm' files from src/main/scala/ or src/main/java
