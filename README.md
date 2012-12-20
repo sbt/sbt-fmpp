@@ -1,4 +1,4 @@
-# xsbt-fmpp-plugin
+# sbt-fmpp
 
 [XSBT](http://github.com/harrah/xsbt) plugin to generate scala/java code using [FreeMarker](http://freemarker.sourceforge.net/) template.
 
@@ -10,7 +10,7 @@ Adding the plugin:
 
     resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-    addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.2")
+    addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % "0.3")
 
 Enable the plugin in your build:
 
