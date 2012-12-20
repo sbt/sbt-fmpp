@@ -1,10 +1,10 @@
 sbtPlugin := true
 
-name := "xsbt-fmpp-plugin"
+name := "sbt-fmpp"
 
 version := "0.3-SNAPSHOT"
 
-organization := "com.github.aloiscochard"
+organization := "com.github.sbt"
 
 scalaVersion        := "2.9.2"
 
