@@ -8,8 +8,6 @@ Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
 Adding the plugin:
 
-    resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
-
     addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % "0.3")
 
 Enable the plugin in your build:
