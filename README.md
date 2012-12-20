@@ -1,6 +1,6 @@
 # sbt-fmpp
 
-[XSBT](http://github.com/harrah/xsbt) plugin to generate scala/java code using [FreeMarker](http://freemarker.sourceforge.net/) template.
+[SBT](http://github.com/harrah/xsbt) plugin to generate scala/java code using [FreeMarker](http://freemarker.sourceforge.net/) template.
 
 Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
@@ -33,7 +33,7 @@ warrant that you have the legal authority to do so.
 
     This software is licensed under the Apache 2 license, quoted below.
 
-    Copyright 2009-2012 Alois Cochard 
+    Copyright 2009-2013 Alois Cochard 
 
     Licensed under the Apache License, Version 2.0 (the "License"); you may not
     use this file except in compliance with the License. You may obtain a copy of
