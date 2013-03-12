@@ -1,1 +1,1 @@
-addSbtPlugin("com.github.aloiscochard" %% "xsbt-fmpp-plugin" % "0.3-SNAPSHOT")
+addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % "0.3")
