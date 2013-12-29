@@ -27,7 +27,7 @@ object FmppPlugin extends Plugin {
     fmppVersion := "0.9.14",
     libraryDependencies <+= (fmppVersion in Fmpp)("net.sourceforge.fmpp" % "fmpp" % _ % Fmpp.name),
     sourceDirectory in Fmpp <<= (sourceDirectory in Compile),
-    scalaSource in Fmpp <<= (sourceManaged in Compile),
+    scalaSource in Fmpp <<= (sourceManaged in Compile) { _ / "fmpp" },
 
     managedClasspath in Fmpp <<= (classpathTypes, update) map { (ct, report) =>
       Classpaths.managedJars(Fmpp, ct, report)
@@ -36,7 +36,7 @@ object FmppPlugin extends Plugin {
     fmpp <<= (
       fmppSources in Fmpp,
       sourceDirectory in Fmpp,
-      sourceManaged in Fmpp,
+      scalaSource in Fmpp,
       fmppMain in Fmpp,
       fmppArgs in Fmpp,
       managedClasspath in Fmpp,
@@ -51,7 +51,7 @@ object FmppPlugin extends Plugin {
   private def process(
     sources: Seq[String],
     source: File,
-    sourceManaged: File,
+    output: File,
     mainClass: String,
     args: Seq[String],
     classpath: Classpath,
@@ -59,13 +59,12 @@ object FmppPlugin extends Plugin {
     streams: TaskStreams,
     cache: File
   ) = {
+    IO.delete(output)
     sources.flatMap(x => {
       val input = source / x
       if (input.exists) {
-        val output = sourceManaged / x
         val cached = FileFunction.cached(cache / "fmpp" / x, FilesInfo.lastModified, FilesInfo.exists) {
           (in: Set[File]) => {
-            IO.delete(output)
             Fork.java(
               javaHome,
               List(
