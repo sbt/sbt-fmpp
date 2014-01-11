@@ -59,12 +59,12 @@ object FmppPlugin extends Plugin {
     streams: TaskStreams,
     cache: File
   ) = {
-    IO.delete(output)
     sources.flatMap(x => {
       val input = source / x
       if (input.exists) {
         val cached = FileFunction.cached(cache / "fmpp" / x, FilesInfo.lastModified, FilesInfo.exists) {
           (in: Set[File]) => {
+            IO.delete(output)
             Fork.java(
               javaHome,
               List(
