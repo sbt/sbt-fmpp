@@ -14,7 +14,6 @@ object FmppPlugin extends AutoPlugin {
     lazy val fmppMain = SettingKey[String]("fmpp-main", "FMPP main class.")
     lazy val fmppSources =  SettingKey[Seq[String]]("fmpp-sources", "Sources type to be processed.")
     lazy val fmppVersion =  SettingKey[String]("fmpp-version", "FMPP version.")
-    lazy val fmppCacheDirectory = SettingKey[File]("fmpp-cache-directory", "Directory where data is cached")
   }
 
   import autoImport._
@@ -29,7 +28,6 @@ object FmppPlugin extends AutoPlugin {
     fmppMain := "fmpp.tools.CommandLine",
     fmppSources := Seq("scala", "java"),
     fmppVersion := "0.9.14",
-    fmppCacheDirectory := java.nio.file.Files.createTempDirectory("fmpp").toFile,
     libraryDependencies += ("net.sourceforge.fmpp" % "fmpp" % (fmppVersion in Fmpp).value % Fmpp.name),
     sourceDirectory in Fmpp := (sourceDirectory in Compile).value,
     scalaSource in Fmpp := (sourceManaged in Compile).value,
@@ -46,7 +44,7 @@ object FmppPlugin extends AutoPlugin {
         (managedClasspath in Fmpp).value,
         javaHome.value,
         streams.value,
-        fmppCacheDirectory.value
+        streams.value.cacheDirectory
       )
     },
 
@@ -71,14 +69,16 @@ object FmppPlugin extends AutoPlugin {
         val cached = FileFunction.cached(cache / "fmpp" / x, FilesInfo.lastModified, FilesInfo.exists) {
           (in: Set[File]) => {
             IO.delete(output)
+            val options = List(
+              "-cp", classpath.map(_.data).mkString(File.pathSeparator), mainClass,
+              "-S", input.toString, "-O", output.toString,
+              "--replace-extensions=fm, " + x,
+              "-M", "execute(**/*.fm), ignore(**/*)"
+            ) ::: args.toList
+            println(options)
             Fork.java(
               ForkOptions().withJavaHome(javaHome),
-              List(
-                "-cp", classpath.map(_.data).mkString(File.pathSeparator), mainClass,
-                "-S", input.toString, "-O", output.toString,
-                "--replace-extensions=fm, " + x,
-                "-M", "execute(**/*.fm), ignore(**/*)"
-              ) ::: args.toList
+              options
             )
             (output ** ("*." + x)).get.toSet
           }
