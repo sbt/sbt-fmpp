@@ -1,6 +1,4 @@
-
 ThisBuild / scalaVersion := "2.12.16"
-ThisBuild / version := "0.4.0-SNAPSHOT"
 
 lazy val root = (project in file("."))
   .enablePlugins(SbtPlugin)

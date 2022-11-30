@@ -29,20 +29,17 @@ object FmppPlugin extends AutoPlugin {
     fmppMain := "fmpp.tools.CommandLine",
     fmppSources := Seq("scala", "java"),
     fmppVersion := "0.9.16",
-    
-    Fmpp / sourceDirectory := (Compile / sourceDirectory).value,
-    Fmpp / scalaSource := (Compile / sourceManaged).value / "fmpp",
-
-    Fmpp / managedClasspath := Classpaths.managedJars(Fmpp, classpathTypes.value, update.value),
-
+    sourceDirectory := (Compile / sourceDirectory).value,
+    scalaSource := (Compile / sourceManaged).value / "fmpp",
+    managedClasspath := Classpaths.managedJars(Fmpp, classpathTypes.value, update.value),
     fmpp := {
       process(
-        (Fmpp / fmppSources).value,
-        (Fmpp / sourceDirectory).value,
-        (Fmpp / scalaSource).value,
-        (Fmpp / fmppMain).value,
-        (Fmpp / fmppArgs).value,
-        (Fmpp / managedClasspath).value,
+        fmppSources.value,
+        sourceDirectory.value,
+        scalaSource.value,
+        fmppMain.value,
+        fmppArgs.value,
+        managedClasspath.value,
         javaHome.value,
         streams.value,
         streams.value.cacheDirectory
