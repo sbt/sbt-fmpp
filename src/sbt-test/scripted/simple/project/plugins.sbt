@@ -1,0 +1,1 @@
+addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % System.getProperty("plugin.version"))

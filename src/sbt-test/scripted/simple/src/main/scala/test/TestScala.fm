@@ -1,4 +1,6 @@
-object Test {
+package test
+
+object TestScala {
 <#list 1..9 as i>
   def f${i} = "foo -> ${i}"
 </#list>

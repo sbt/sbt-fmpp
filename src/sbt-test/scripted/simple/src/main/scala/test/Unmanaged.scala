@@ -1,3 +1,4 @@
+package test
 
 object Unmanaged {
 

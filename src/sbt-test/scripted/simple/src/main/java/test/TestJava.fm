@@ -1,6 +1,6 @@
 package test;
 
-public class Test {
+public class TestJava {
 <#list 1..9 as i>
   public static String f${i}() {
     return "foo -> ${i}";
