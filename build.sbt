@@ -6,6 +6,18 @@ version := "0.3-SNAPSHOT"
 
 organization := "com.github.sbt"
 
-scalaVersion        := "2.10.0"
 
-crossScalaVersions  := Seq("2.9.0-1", "2.9.1-1", "2.9.2", "2.10.0")
+crossScalaVersions  := Seq("2.12.6", "2.11.11")
+
+scalaVersion := crossScalaVersions.value.head
+
+sbtPlugin := true
+
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+publishTo := {
+  if (isSnapshot.value)
+    Some(Resolver.sbtPluginRepo("snapshots"))
+  else
+    Some(Resolver.sbtPluginRepo("releases"))
+}
+publishMavenStyle := false
