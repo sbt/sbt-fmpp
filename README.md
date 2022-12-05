@@ -8,7 +8,7 @@ Processing is done using [FMPP](http://fmpp.sourceforge.net/).
 
 Adding the plugin:
 
-    addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % "0.3")
+    addSbtPlugin("com.github.sbt" %% "sbt-fmpp" % "0.4.0")
 
 Enable the plugin in your build:
 
